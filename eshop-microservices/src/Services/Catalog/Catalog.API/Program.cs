@@ -6,6 +6,11 @@ builder.Services.AddMediatR(config =>
 {
     config.RegisterServicesFromAssembly(typeof(Program).Assembly);  
 });
+
+builder.Services.AddMarten(opts =>
+{
+    opts.Connection(builder.Configuration.GetConnectionString("Database")!);
+}).UseLightweightSessions(); //performans icin hafif surum kullanýyoruz
 var app = builder.Build();
 
 

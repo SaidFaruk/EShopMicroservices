@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  catalogdb:
+   image: postgres
+
+
+volumes:
+  postgres_catalog:
+
+
