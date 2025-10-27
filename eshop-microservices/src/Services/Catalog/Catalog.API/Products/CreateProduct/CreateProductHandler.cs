@@ -1,5 +1,7 @@
 ﻿
 
+
+
 namespace Catalog.API.Products.CreateProduct
 {
 
@@ -12,10 +14,25 @@ namespace Catalog.API.Products.CreateProduct
     ):ICommand<CreateProductResult>;
     public record CreateProductResult(Guid Id);
 
-    internal class CreateProductCommandHandler(IDocumentSession session) : ICommandHandler<CreateProductCommand, CreateProductResult>
+
+    public class CreateProductCommandValidator:AbstractValidator<CreateProductCommand>
+    {
+        public CreateProductCommandValidator()
+        {
+            RuleFor(x => x.Name).NotEmpty().MaximumLength(100);
+            RuleFor(x => x.Category).NotEmpty().WithMessage("Category is reqiured"); 
+            RuleFor(x => x.Description).NotEmpty().MaximumLength(500);
+            RuleFor(x => x.ImageFile).NotEmpty().MaximumLength(200);
+            RuleFor(x => x.Price).GreaterThan(0);
+        }
+    }
+
+    internal class CreateProductCommandHandler(IDocumentSession session,ILogger<CreateProductCommandHandler> logger )
     {
         public async Task<CreateProductResult> Handle(CreateProductCommand command, CancellationToken cancellationToken)
         {
+            logger.LogInformation("Creating a new product with name: {ProductName}", command.Name);
+
             var product = new Product
             {
                 Name = command.Name,
