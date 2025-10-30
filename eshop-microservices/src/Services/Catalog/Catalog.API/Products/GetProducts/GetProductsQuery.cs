@@ -6,6 +6,6 @@
     // Record'lar method veya property içermez, sadece veri taşır. Bu yüzden içine breakpoint koyamazsın.
     // GetProductsResult ise sorgunun sonucunda dönecek olan ürün listesini (IEnumerable<Product>) taşır.
     // Yani, GetProductsQuery ile ürünler sorgulanır, GetProductsResult ile sonuç döner.
-    public record GetProductsQuery : IQuery<GetProductsResult>;
+    public record GetProductsQuery(int? PageNumber = 1, int? PageSize = 10) : IQuery<GetProductsResult>;
     public record GetProductsResult(IEnumerable<Product> Products);
 }
