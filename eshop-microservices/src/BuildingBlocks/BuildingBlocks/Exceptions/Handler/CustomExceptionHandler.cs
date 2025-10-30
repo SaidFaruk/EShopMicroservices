@@ -41,6 +41,7 @@ namespace BuildingBlocks.Exceptions.Handler
                     exception.GetType().Name,
                     StatusCodes.Status404NotFound
                 ),
+                
                 _ => (
                     exception.Message,
                     exception.GetType().Name,

@@ -27,11 +27,11 @@ namespace Catalog.API.Products.CreateProduct
         }
     }
 
-    internal class CreateProductCommandHandler(IDocumentSession session,ILogger<CreateProductCommandHandler> logger )
+    internal class CreateProductCommandHandler(IDocumentSession session )
     {
         public async Task<CreateProductResult> Handle(CreateProductCommand command, CancellationToken cancellationToken)
         {
-            logger.LogInformation("Creating a new product with name: {ProductName}", command.Name);
+            
 
             var product = new Product
             {
