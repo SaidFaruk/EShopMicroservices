@@ -1,5 +1,5 @@
-using BuildingBlocks.Behaviors;
-using FluentValidation;
+
+ 
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,8 +21,10 @@ builder.Services.AddMarten(opts =>
 var app = builder.Build();
 
 
-
+builder.Services.AddExceptionHandler<CustomExceptionHandler>();
 app.MapGet("/", () => "Hello World!");
 
 app.MapCarter();
+
+
 app.Run();

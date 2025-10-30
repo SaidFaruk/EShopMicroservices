@@ -11,7 +11,7 @@ namespace Catalog.API.Products.UpdateProduct
         ) : ICommand<UpdateProductResult>;
 
     public record UpdateProductResult(bool IsSuccess);
-
+     
     public class UpdateProductCommandValidator : AbstractValidator<UpdateProductCommand>
     {
         public UpdateProductCommandValidator()
@@ -31,7 +31,7 @@ namespace Catalog.API.Products.UpdateProduct
 
             if(product is null)
             {
-                throw new ProductNotFoundException();
+                throw new ProductNotFoundException(command.Id);
             }
 
             product.Name = command.Name;
