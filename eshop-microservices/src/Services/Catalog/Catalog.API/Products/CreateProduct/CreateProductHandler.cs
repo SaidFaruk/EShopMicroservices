@@ -2,6 +2,8 @@
 
 
 
+using Catalog.API.Products.UpdateProduct;
+
 namespace Catalog.API.Products.CreateProduct
 {
 
@@ -27,7 +29,7 @@ namespace Catalog.API.Products.CreateProduct
         }
     }
 
-    internal class CreateProductCommandHandler(IDocumentSession session )
+    internal class CreateProductCommandHandler(IDocumentSession session ) : ICommandHandler<CreateProductCommand, CreateProductResult>
     {
         public async Task<CreateProductResult> Handle(CreateProductCommand command, CancellationToken cancellationToken)
         {

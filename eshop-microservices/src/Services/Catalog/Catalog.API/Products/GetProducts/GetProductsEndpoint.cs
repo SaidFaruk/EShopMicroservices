@@ -5,7 +5,7 @@ namespace Catalog.API.Products.GetProducts
     public record GetProductRequest(int? PageNumber=1 , int? PageSize =10);
     public record GetProductResponse(IEnumerable<Product> Products);
     public class GetProductsEndpoint : ICarterModule
-    {
+    {   
         public void AddRoutes(IEndpointRouteBuilder app)
         {
             // "/products" endpoint'i tanımlanıyor, HTTP GET isteği ile çalışır.
@@ -13,7 +13,7 @@ namespace Catalog.API.Products.GetProducts
             {
                 var query = request.Adapt<GetProductsQuery>();
                 // MediatR kullanılarak GetProductsQuery gönderiliyor ve ürünler alınıyor.
-                var result = await sender.Send(new GetProductsQuery());
+                var result = await sender.Send(query);
                 // Sonuç, GetProductResponse tipine dönüştürülüyor (Mapster ile).
                 var response = result.Adapt<GetProductResponse>();
                 // 200 OK ile birlikte response döndürülüyor.
