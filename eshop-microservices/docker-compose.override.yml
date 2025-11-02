@@ -10,6 +10,7 @@ services:
      - "5432:5432"
    volumes:
      - postgres_catalog:/var/lib/postgresql/data
+
   basketdb:
    container_name: basketdb
    environment:
@@ -22,6 +23,11 @@ services:
    volumes:
      - postgres_basket:/var/lib/postgresql/data
  
+  distrubutedcache:
+    container_name: distrubutedcache
+    restart: always
+    ports:
+      - "6379:6379"
   catalog.api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
