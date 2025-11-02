@@ -9,13 +9,11 @@
             RuleFor(x => x.UserName).NotEmpty().WithMessage("UserName is Required");
         }
     }
-    public class DeleteBasketCommandHandler:ICommandHandler<DeleteBasketCommand,DeleteBasketResult>
+    public class DeleteBasketCommandHandler(IBasketRepository repository) : ICommandHandler<DeleteBasketCommand,DeleteBasketResult>
     {
         public async Task<DeleteBasketResult> Handle(DeleteBasketCommand command, CancellationToken cancellationToken)
         {
-            string userName = command.UserName;
-            //todo delete basket from database
-            // todo update cache
+            await repository.DeleteBasket(command.UserName, cancellationToken);
             return new DeleteBasketResult(true);
         }
     }

@@ -1,5 +1,7 @@
 
 
+using BuildingBlocks.Exceptions.Handler;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // add services to the container build edilmeden calisacak kýsým
@@ -12,9 +14,25 @@ builder.Services.AddMediatR(config =>
     config.AddOpenBehavior(typeof(LoggingBehavior<,>)); 
 }
 );
-var app = builder.Build();
+
+builder.Services.AddMarten(options =>
+{
+    options.Connection(builder.Configuration.GetConnectionString("Database")!);
+    options.Schema.For<ShoppingCart>().Identity(z=>z.UserName); 
+}).UseLightweightSessions();
+
+builder.Services.AddScoped<IBasketRepository, BasketRepository>();
+
+builder.Services.AddExceptionHandler<CustomExceptionHandler>();
+
+
+var app = builder.Build();  // ----------------------------------------------
 
 // configure the HTTP request pipeline. build edildikten sonra calisacak kýsým
 
+
+
 app.MapCarter();
+
+app.UseExceptionHandler(opt => { });
 app.Run();
