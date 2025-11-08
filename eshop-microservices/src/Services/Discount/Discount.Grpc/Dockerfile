@@ -4,6 +4,8 @@
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 USER $APP_UID
 WORKDIR /app
+WORKDIR /app
+RUN mkdir -p /app/data
 EXPOSE 8080
 EXPOSE 8081
 
@@ -26,5 +28,6 @@ RUN dotnet publish "./Discount.Grpc.csproj" -c $BUILD_CONFIGURATION -o /app/publ
 # This stage is used in production or when running from VS in regular mode (Default when not using the Debug configuration)
 FROM base AS final
 WORKDIR /app
+
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "Discount.Grpc.dll"]
