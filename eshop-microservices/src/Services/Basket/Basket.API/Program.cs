@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 var builder = WebApplication.CreateBuilder(args);
 
 // add services to the container build edilmeden calisacak kýsým
+//application services
 var assembly = typeof(Program).Assembly;
 builder.Services.AddCarter();
 builder.Services.AddMediatR(config =>
@@ -16,7 +17,7 @@ builder.Services.AddMediatR(config =>
     config.AddOpenBehavior(typeof(LoggingBehavior<,>)); 
 }
 );
-
+//data services
 builder.Services.AddMarten(options =>
 {
     options.Connection(builder.Configuration.GetConnectionString("Database")!);
@@ -29,6 +30,10 @@ builder.Services.AddStackExchangeRedisCache(opt =>
 {
     opt.Configuration = builder.Configuration.GetConnectionString("Redis"); 
 });
+
+//grp services
+
+//cross-cutting services
 builder.Services.AddExceptionHandler<CustomExceptionHandler>();
 builder.Services.AddHealthChecks()
     .AddNpgSql(builder.Configuration.GetConnectionString("Database")!)
